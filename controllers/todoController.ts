@@ -16,7 +16,7 @@ export const todoController = {
         
         try{
             const todos = await Todos.find();
-
+            
             res.locals.todos = todos;
             return next();
 
@@ -43,7 +43,6 @@ export const todoController = {
             const { isDone } = req.body;
 
             const updatedTodo = await Todos.findOneAndUpdate({_id}, {isDone}, {returnNeDocument: true});
-            console.log(updatedTodo);
             return next();
 
         } catch(err) {

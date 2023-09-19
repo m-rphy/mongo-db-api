@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.1';
+const MONGO_URI = process.env.DB || ''; 
 
 mongoose.connect(MONGO_URI, {
     dbName: 'Todo_list_db'
