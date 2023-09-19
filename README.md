@@ -5,24 +5,26 @@ This is a app includes a server and a mongo schema.
 The schema is for a to do list app, but the app can easily
 be refactored to accommodate other schemas. 
 
-To connect your local Mongo DB instance to this API
+## Setup
 
-For Mac:
+### For Mac:
+To connect your local Mongo DB instance to this API
 you'll want to have brew installed. Then you can run 
 
 `brew tap mongodb/brew`
 
-Then
+Followed by
 
 `brew install mongodb-community@latest`
 
-Once this is complete, run 
+These enable mongo to run locally
+Once they are finished installing you
+can start the instance with:
 
 `brew services start mongo-community`
 
-This will start the local db instance.
-Once your mongo db instance is running,
-you can get the URI by running
+A local mongo db instance is running!
+To get the URI to connect to, run:
 
 `mongosh`
 
