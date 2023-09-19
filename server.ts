@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import https from 'https';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { todoRouter } from './routers/todoRouter';
@@ -32,7 +33,9 @@ app.use((err: any, _: Request, res: Response) => {
     return res.status(errorStatus).json(err);
 });
 
-const PORT = process.env.PORT || 3031;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 4000;
+https
+    .createServer(app)
+    .listen(PORT, () => {
     console.log(`Beep Boop: listening on port: ${PORT}`);
 });
