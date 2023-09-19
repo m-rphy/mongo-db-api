@@ -1,14 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { Todos } from '../models/schema';
 
-const createErr = (err: any, msg: string, status: number) => {
+export interface Err {
+    status: number,
+    msg: string,
+    err: Error
+}
+
+const createErr = (err: Error, msg: string, status: number): Err => {
     return {
         err,
         msg,
         status,
-    }
+    };
 };
-
 
 export const todoController = {
     
@@ -21,45 +26,45 @@ export const todoController = {
             return next();
 
         } catch(err) {
-            return next(createErr(err, 'Error in getWholeList', 404))
+            return next(createErr(err, 'Error in getWholeList', 404));
         }
     },
-    postTodo: async (req: Request, res: Response, next: NextFunction) => {
+    postTodo: async (req: Request, _: Response, next: NextFunction) => {
             
         try{
             const { name } = req.body;
             
             await Todos.create({ name, isDone: false});
-            return next()
+            return next();
 
         } catch(err) {
-            return next(createErr(err, 'Error in postTodo', 404))
+            return next(createErr(err, 'Error in postTodo', 404));
         }
     },
-    updateTodo: async (req: Request, res: Response, next: NextFunction) => {
+    updateTodo: async (req: Request, _: Response, next: NextFunction) => {
 
         try{
             const { _id} = req.params;
             const { isDone } = req.body;
 
-            const updatedTodo = await Todos.findOneAndUpdate({_id}, {isDone}, {returnNeDocument: true});
+            await Todos.findOneAndUpdate({_id}, {isDone}, {returnNeDocument: true});
             return next();
 
         } catch(err) {
-            return next(createErr(err, 'Error in updateTodo', 404))
+            return next(createErr(err, 'Error in updateTodo', 404));
         }
     },
-    deleteTodo: async (req: Request, res: Response, next: NextFunction) => {
+    deleteTodo: async (req: Request, _: Response, next: NextFunction) => {
 
         try{
             
             const { _id} = req.params;
 
             await Todos.findOneAndDelete({_id});
-            return next()
+            return next();
 
         } catch(err) {
-            return next(createErr(err, 'Error in deleteTodo', 404))
+            return next(createErr(err, 'Error in deleteTodo', 404));
         }
     }
-}
+};

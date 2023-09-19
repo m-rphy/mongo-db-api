@@ -1,9 +1,11 @@
 import 'dotenv/config';
 import https from 'https';
 import fs from 'fs';
-import express, { Request, Response } from 'express';
 import cors from 'cors';
+import express, { Request, Response } from 'express';
 import { todoRouter } from './routers/todoRouter';
+import { Err } from './controllers/todoController';
+
 
 const app = express();
 
@@ -19,18 +21,18 @@ app.use(cors({
         }
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders: 'Content-Type, Authorization',
 }));
 
 app.use('/api/data', todoRouter);
 
 app.use('/*', (_:Request, res: Response) => {
-    return res.status(404).json('Page Not Found')
+    return res.status(404).json('Page Not Found');
 });
 
 // Global Error Handler (do not put into production)
-app.use((err: any, _: Request, res: Response) => {
-    const errorStatus = err.status || 500;
+app.use((err: Err, _: Request, res: Response) => {
+    const errorStatus: number = err.status || 500;
     return res.status(errorStatus).json(err);
 });
 
@@ -44,5 +46,5 @@ https
         app
     )
     .listen(PORT, () => {
-    console.log(`Beep Boop: listening on port: ${PORT}`);
-});
+        console.log(`Beep Boop: listening on port: ${PORT}`);
+    });
