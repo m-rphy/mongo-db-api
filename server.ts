@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import https from 'https';
+import fs from 'fs';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { todoRouter } from './routers/todoRouter';
@@ -35,7 +36,13 @@ app.use((err: any, _: Request, res: Response) => {
 
 const PORT = process.env.PORT || 4000;
 https
-    .createServer(app)
+    .createServer(
+        {
+            key: fs.readFileSync('./certs/key.pem'),
+            cert: fs.readFileSync('./certs/cert.pem'),
+        },
+        app
+    )
     .listen(PORT, () => {
     console.log(`Beep Boop: listening on port: ${PORT}`);
 });
